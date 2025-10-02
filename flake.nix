@@ -18,8 +18,8 @@
           src = pkgs.fetchFromGitHub {
             owner = "ormandi";
             repo = "tmux-mem-cpu-load";
-            rev = "show_cpu_show_ram";
-            sha256 = "05rx1zgcm9zdq30n0inbdv0nli8cwdisg61586fm8vp5ijbxx7k4";
+            rev = "2037bfd0c15b019346996331722714d324086767";
+            sha256 = "E2oDoqKcCS+T1XBD4+2YrCYGZjyk8gb1h0iyxQxN0HA=";
           };
           
           nativeBuildInputs = [ pkgs.cmake ];
@@ -60,7 +60,6 @@
           
           shellHook = ''
             echo "tmux-mem-cpu-load is available"
-            echo "Run: tmux-mem-cpu-load"
           '';
         };
       }
