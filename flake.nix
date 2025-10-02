@@ -13,13 +13,11 @@
 
         tmux-mem-cpu-load = pkgs.stdenv.mkDerivation {
           pname = "tmux-mem-cpu-load";
-          version = "2037bfd0c15b019346996331722714d324086767";
+          version = "show_cpu_show_ram";
 
-          src = pkgs.fetchFromGitHub {
-            owner = "ormandi";
-            repo = "tmux-mem-cpu-load";
-            rev = "2037bfd0c15b019346996331722714d324086767";
-            hash = "sha256-0w6h9l6cbcj8hzshdwm47ik0c9mck3ny6hvhsn9jy2cwlai06shk";
+          src = builtins.fetchGit {
+            url = "https://github.com/ormandi/tmux-mem-cpu-load";
+            ref = "show_cpu_show_ram";
           };
 
           nativeBuildInputs = [ pkgs.cmake ];
