@@ -19,7 +19,7 @@
             owner = "ormandi";
             repo = "tmux-mem-cpu-load";
             rev = "2037bfd0c15b019346996331722714d324086767";
-            sha256 = "E2oDoqKcCS+T1XBD4+2YrCYGZjyk8gb1h0iyxQxN0HA=";
+            sha256 = "sha256-E2oDoqKcCS+T1XBD4+2YrCYGZjyk8gb1h0iyxQxN0HA=";
           };
           
           nativeBuildInputs = [ pkgs.cmake ];
