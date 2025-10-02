@@ -88,7 +88,7 @@ std::string cpu_string( CPU_MODE cpu_mode, unsigned int cpu_usage_delay, unsigne
   }
   else if( graph_lines > 0)
   {
-    oss << " [";
+    oss << "[";
     oss << get_graph_by_percentage( unsigned( percentage ), graph_lines );
     oss << "]";
   }
@@ -160,6 +160,8 @@ int main( int argc, char** argv )
   short left_color = 0;
   short right_color = 0;
   bool use_colors = false;
+  bool show_cpu = false;
+  bool show_ram = false;
   bool use_powerline_left = false;
   bool use_powerline_right = false;
   bool use_vert_graph = false;
@@ -176,6 +178,8 @@ int main( int argc, char** argv )
     // otherwise it's a value to set the variable *flag points to
     { "help", no_argument, NULL, 'h' },
     { "colors", no_argument, NULL, 'c' },
+    { "show_cpu", no_argument, NULL, 'C' },
+    { "show_ram", no_argument, NULL, 'R' },
     { "powerline-left", no_argument, NULL, 'p' },
     { "powerline-right", no_argument, NULL, 'q' },
     { "vertical-graph", no_argument, NULL, 'v' },
@@ -191,7 +195,7 @@ int main( int argc, char** argv )
 
   int c;
   // while c != -1
-  while( (c = getopt_long( argc, argv, "hi:cpqvl:r:g:m:a:t:", long_options, NULL) ) != -1 )
+  while( (c = getopt_long( argc, argv, "hi:cCRpqvl:r:g:m:a:t:", long_options, NULL) ) != -1 )
   {
     switch( c )
     {
@@ -201,6 +205,12 @@ int main( int argc, char** argv )
         break;
       case 'c': // --colors
         use_colors = true;
+        break;
+      case 'C': // --show_cpu
+        show_cpu = true;
+        break;
+      case 'R': // --sho_ram
+        show_ram = true;
         break;
       case 'p': // --powerline-left
         use_colors = true;
@@ -291,11 +301,30 @@ int main( int argc, char** argv )
 
   MemoryStatus memory_status;
   mem_status( memory_status );
-  std::cout << mem_string( memory_status, mem_mode, use_colors, use_powerline_left, use_powerline_right, segments_to_left, left_color )
-    << cpu_string( cpu_mode, cpu_usage_delay, graph_lines, use_colors, use_powerline_left, use_powerline_right, use_vert_graph )
-    << load_string( use_colors, use_powerline_left, use_powerline_right, averages_count, segments_to_right, right_color );
 
-  std::cout << std::endl;
+  std::string mem_graph = "";
+  if( graph_lines > 0) {
+    double mem_ratio = 0.0;
+    if (memory_status.total_mem > 0.0) {
+      mem_ratio = memory_status.used_mem / (double) memory_status.total_mem;
+    }
+    mem_graph = "[" + get_graph_by_percentage(
+        unsigned(mem_ratio * 100.0), graph_lines) + "] ";
+  }
+
+  if (show_cpu) {
+    const std::string cpu_str = cpu_string(
+        cpu_mode, cpu_usage_delay, graph_lines, use_colors, use_powerline_left,
+        use_powerline_right);
+    std::cout << cpu_str << std::endl;
+  }
+
+  if (show_ram) {
+    const std::string mem_str = mem_graph + mem_string(
+        memory_status, mem_mode, use_colors, use_powerline_left,
+        use_powerline_right);
+    std::cout << mem_str << std::endl;
+  }
 
   return EXIT_SUCCESS;
 }
