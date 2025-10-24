@@ -19,12 +19,10 @@
 
             src = self;  # Use the flake's own source.
 
-            nativeBuildInputs = [ pkgs.cmake pkgs.clang_21 ];
+            nativeBuildInputs = [ pkgs.cmake ];
 
-            cmakeFlags = [
-              "-DCMAKE_CXX_COMPILER=${pkgs.clang_21}/bin/clang++"
-              "-DCMAKE_C_COMPILER=${pkgs.clang_21}/bin/clang"
-            ];
+            # Let CMake use the default compiler from stdenv
+            # No need to specify compiler explicitly
 
             configurePhase = ''
               cmake .
